@@ -1,0 +1,91 @@
+
+<div class="container">
+    <div class="card list-user">
+        <h5 class="card-header">Lista de Usuários</h5>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of listUser; index as i">
+                        <td>{{user.name}}</td>
+                        <td>{{user.email}}</td>
+                        <td>
+                            <a (click)="controlFavorite(i)">
+                                <i class="fa fa-heart" aria-hidden="true" *ngIf="user.flagFavorite" style="color: darkred;"></i>
+                                <i class="fa fa-heart" aria-hidden="true" *ngIf="!user.flagFavorite" style="color: darkgray;"></i>
+                            </a>
+                            <button type="button" class="btn btn-warning btn-sm" (click)="editUser(user, i)">Editar</button>
+                            <button type="button" class="btn btn-danger btn-sm ml-1"
+                                (click)="deleteUser(i)">Deletar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card add-user" *ngIf="user.id !== 'undefined'">
+        <h5 class="card-header">Detalhes do Usuário</h5>
+        <div class="card-body">
+            <form id="add-form" (ngSubmit)="f.form.valid && saveUser(f)" #f="ngForm" novalidate>
+                <div class="form-group">
+                    <label for="model">Nome Completo</label>
+                    <input type="text" [(ngModel)]="user.name" id="name" name="name" #name="ngModel" required
+                        class="form-control" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }">
+                    <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
+                        <div *ngIf="name.errors.required">Nome é obrigatório</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefone</label>
+                    <input type="text" [(ngModel)]="user.phone" id="phone" name="phone" #phone="ngModel" required
+                        class="form-control" [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }">
+                    <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
+                        <div *ngIf="phone.errors.required">Telefone é obrigatório</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="website">Site</label>
+                    <input type="text" [(ngModel)]="user.website" id="website" name="website" #website="ngModel" required
+                        class="form-control" [ngClass]="{ 'is-invalid': f.submitted && website.invalid }">
+                    <div *ngIf="f.submitted && website.invalid" class="invalid-feedback">
+                        <div *ngIf="website.errors.required">Site é obrigatório</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="companyName">Nome da empresa</label>
+                    <input type="text" [(ngModel)]="user.company.name" id="companyName" name="companyName" #companyName="ngModel" required
+                        class="form-control" [ngClass]="{ 'is-invalid': f.submitted && companyName.invalid }">
+                    <div *ngIf="f.submitted && companyName.invalid" class="invalid-feedback">
+                        <div *ngIf="companyName.errors.required">Nome da empresa é obrigatório</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="website">Site</label>
+                    <input type="text" [(ngModel)]="user.website" id="website" name="website" #website="ngModel" required
+                        class="form-control" [ngClass]="{ 'is-invalid': f.submitted && website.invalid }">
+                    <div *ngIf="f.submitted && website.invalid" class="invalid-feedback">
+                        <div *ngIf="website.errors.required">Preço é obrigatório</div>
+                    </div>
+                </div>
+                <!-- <div class="form-group">
+                    <label>Mapa</label>
+                    <agm-map [latitude]="user.address.geo.lat" 
+                    [zoom]=15 
+                    [longitude]="user.address.geo.lat">
+                        <agm-marker  [latitude]="user.address.geo.lat" [longitude]="user.address.geo.lat"></agm-marker>
+                      </agm-map>
+                </div> -->
+                <div id="map"></div>
+                <button type="submit" class="btn btn-primary btn-add-car">Salvar</button>
+                <button type="reset" class="btn btn-secondary btn-add-car" (click)="cleanForm(f)">Cancelar</button>
+            </form>
+        </div>
+    </div>
+</div>
